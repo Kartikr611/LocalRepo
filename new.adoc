@@ -1,4 +1,4 @@
-Become a root user.
+. Become a root user.
 [subs="+quotes"]
 ----
 `[student@workstation ~]$ sudo -i`
