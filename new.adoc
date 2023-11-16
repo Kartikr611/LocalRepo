@@ -1,0 +1,15 @@
+. Become a root user.
+[subs="+quotes"]
+----
+`[student@workstation ~]$ sudo -i`
+----
+  .. If prompted, enter the password as 'student'
+ 
+[start=2]
+. Search for the application `cheese`.
+[subs="+quotes"]
+----
+`[root@workstation ~]$ dnf search cheese`
+----
+--
+.. Notice the output that denotes the existence of the application. +
