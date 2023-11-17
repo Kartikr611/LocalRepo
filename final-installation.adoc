@@ -9,7 +9,7 @@ Installation of Knative requires the following prerequisites to be satisfied:
 * Knative seamlessly supports the majority of local Kubernetes deployments. Consider using a local, single-node cluster with at least 3 CPUs and 4 GB of memory. 
 * For a single-node cluster, ensure a minimum configuration of 6 CPUs, 6 GB of memory, as well as 30 GB of disk storage.
 * For multi-node clusters, each node should be provisioned with at least 2 CPUs, 4 GB of memory, and 20 GB of disk storage.
-* A Kubernetes cluster running version v1.26 or a more.
+* A Kubernetes cluster running version v1.26 or a newer version.
 * `kubectl` CLI should be installed.
 
 == Install the Knative Operator
@@ -140,10 +140,10 @@ kourier   LoadBalancer   10.101.101.116   10.101.101.116   80:30864/TCP,443:3192
 
 === Validate the deployment of Knative Serving
 
-. Confirm Knative serving deployment. upon successful deployment, all deployments will be displayed to be ready:
+. Confirm Knative serving deployment. Upon successful deployment, all deployments will be displayed to be ready:
 [source,bash]
 kubectl get deployment -n knative-serving
-
++
 [source,bash]
 NAME                     READY   UP-TO-DATE   AVAILABLE   AGE
 3scale-kourier-gateway   1/1     1            1           35h
@@ -153,6 +153,7 @@ autoscaler-hpa           1/1     1            1           35h
 controller               1/1     1            1           35h
 net-kourier-controller   1/1     1            1           35h
 webhook                  1/1     1            1           35h
++
 
 . Verify the status of the Knative Serving Custom Resource:
 [source,bash]
@@ -174,7 +175,7 @@ kubectl apply -f https://github.com/knative/serving/releases/download/knative-{k
 
 == Knative Eventing Installation
 
-Knative Eventing installation needs deploying the KnativeEventing custom resource (CR). 
+Knative Eventing installation needs deploying the Knative Eventing custom resource (CR). 
 
 . Create a file `knative-eventing.yaml` with the following content:
 [source,yaml]
@@ -188,12 +189,12 @@ kind: KnativeEventing
 metadata:
   name: knative-eventing
   namespace: knative-eventing
-
++
 [NOTE] 
 ====
 If the spec.version is not explicitly specified, the Operator will use the most recent available version as default.
 ====
-
++
 
 . Apply the YAML file by running the command:
 [source,bash]
@@ -203,6 +204,7 @@ kubectl apply -f knative-eventing.yaml
 [source,bash]
 kubectl get deployment -n knative-eventing
 
++
 [source,bash]
 NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
 eventing-controller     1/1     1            1           35h
@@ -213,16 +215,18 @@ mt-broker-controller    1/1     1            1           35h
 mt-broker-filter        1/1     1            1           35h
 mt-broker-ingress       1/1     1            1           35h
 pingsource-mt-adapter   0/0     0            0           35h
-
++
 
 . Verify the status of the Knative Eventing Custom Resource by running the following command:
 [source,bash]
 kubectl get KnativeEventing knative-eventing -n knative-eventing
 
++
 Expected Output:
 [source,bash]
 NAME               VERSION             READY   REASON
 knative-eventing   {eventing-release}  True
++
 
 
 === References
