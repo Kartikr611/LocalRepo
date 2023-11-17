@@ -276,13 +276,13 @@ test('Unit: responds with error code if not GET', async t => {
 ```
 
 c. Remove the `test/integration.js` file.
++
 ----
    [student@workstation greeting]$ rm test/integration.js
 ----
 +
-
-c. As we have removed the integration.js containing boilerplate integration test cases, hence we also need to edit the `npm test` script in `package.json` file. Open `package.json` file and replace it's content with the following:
-
+d. As we have removed the integration.js containing boilerplate integration test cases, hence we also need to edit the `npm test` script in `package.json` file. Open `package.json` file and replace it's content with the following:
++
 ```
 {
   "name": "http-handler",
@@ -308,7 +308,7 @@ c. As we have removed the integration.js containing boilerplate integration test
 }
 
 ```
-
++
 
 
 3. Test the serverless function by running the provided automated tests.
@@ -377,6 +377,9 @@ The preceding command creates a container image that can be run locally or on a 
 . During the execution of `kn func build` command, it might prompt you to provide the image registry name for the function images. You can provide the registry name such as 'quay.io/youruser' or 'docker.io/youruser' where `youruser` is your user or team namespace in the image registry.
 ====
 
++
+
+
 b. You can verify that the image is available locally by running 'podman images' or 'docker images' command based on whether you have podman or docker installed in your workstation.
 +
 [subs="+quotes"]
@@ -411,7 +414,7 @@ latest: digest: sha256:e67b1a97f78466ff10ad7c7cefc3693007de477842935802e7508c06a
 ✅ Function updated in namespace "default" and exposed at URL: 
    http://greeting.default.apps.example.com
 ----
-
++
 [NOTE]
 ====
 . During this step, it might ask you for your image registry credentials.
@@ -429,7 +432,7 @@ b. Copy the function URL from the output of the preceding command.
 You can also get the URL by using the `kn route list` command.
 
 c. Append the `name` parameter to the function URL
-
++
 The URL should look like the following.
 +
 [subs=+quotes]
