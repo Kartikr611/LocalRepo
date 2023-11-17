@@ -49,7 +49,7 @@ deployment.apps/knative-operator configured
 
 
 
-Switch the existing namespace to default:
+. Switch the existing namespace to default:
 [source,bash]
 kubectl config set-context --current --namespace=default
 
@@ -57,11 +57,12 @@ kubectl config set-context --current --namespace=default
 . Confirm successful installation of the Knative operator:
 [source,bash]
 kubectl get deployment knative-operator
-
++
 Expected output: 
 [source,bash]
   NAME               READY   UP-TO-DATE   AVAILABLE   AGE
   knative-operator   1/1     1            1           35h
++
 
 
 == Knative Serving Installation
