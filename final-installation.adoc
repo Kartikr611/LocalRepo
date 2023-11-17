@@ -94,10 +94,12 @@ In the absence of a set version using spec.version, the Operator automatically d
 [source,bash]
 kubectl apply -f knative-serving.yaml
 
++
 Expected output:
 [source,bash]
 namespace/knative-serving configured
 knativeserving.operator.knative.dev/knative-serving configured
++
 
 
 === Installation of the networking layer
@@ -167,7 +169,7 @@ knative-serving   {serving-release}     True
 
 === Configure DNS
 
-Knative supplies a Kubernetes Job called default-domain to configure Knative Serving to use sslip.io as the default DNS suffix. it can be executed by following step:
+Knative supplies a Kubernetes Job called default-domain to configure Knative Serving to use sslip.io as the default DNS suffix. It can be executed by the following step:
 
 [source,bash]
 kubectl apply -f https://github.com/knative/serving/releases/download/knative-{knative-release}/serving-default-domain.yaml
