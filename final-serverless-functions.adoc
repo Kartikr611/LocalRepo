@@ -8,7 +8,7 @@ To create Knative functions on your workstation, you need the following:
 
 . `kubectl` and `kn` CLI to be installed
 . OCI-compliant container runtime such as `Podman` or `Docker`
-. Knative Service needs to be installed and running
+. Knative Serving needs to be installed and running
 . `kn func` CLI plugin
 
 `kn func` CLI can generate function projects from pre-defined set of templates that generate function projects from boilerplates. These project templates are available for a variety of languages such as Node.js, Quarkus, Python, Go etc. It also allows you to select the invocation format of the function from two choices - HTTP and CloudEvent, HTTP being the default. These templates depend on language-specific frameworks. When HTTP invocation format is selected, it handles the HTTP invocation procedure.  That includes running an HTTP server, exposing HTTP endpoints, parsing incoming data from request, invoking the function, and finally transforming the returned value into a proper HTTP response.
