@@ -1,15 +1,15 @@
 = Introducing Serverless Functions
 
-Serverless functions help to effortlessly create, build and deploy services, without having to know about the intricate details of the underlying infrastructure. These simple functions are designed to let the developers focus on accepting input, perform the defined business logic, and finally, produce an output.  
+Serverless functions help to effortlessly create, build, and deploy services, without having to know about the intricate details of the underlying infrastructure. These simple functions are designed to let the developers focus on accepting input, perform the defined business logic, and finally, produce an output.  
 
 
 
 To create Knative functions on your workstation, you need the following:
 
-. `kubectl` and `kn` CLI to be installed.
-. OCI-compliant container runtime such as `Podman` or `Docker`.
+. `kubectl` and `kn` CLI to be installed
+. OCI-compliant container runtime such as `Podman` or `Docker`
 . Knative Service needs to be installed and running
-. `kn func` CLI plugin.
+. `kn func` CLI plugin
 
 `kn func` CLI can generate function projects from pre-defined set of templates that generate function projects from boilerplates. These project templates are available for a variety of languages such as Node.js, Quarkus, Python, Go etc. It also allows you to select the invocation format of the function from two choices - HTTP and CloudEvent, HTTP being the default. These templates depend of language-specific frameworks. When HTTP invocation format is selected, it handles the HTTP invocation procedure.  That includes running an HTTP server, exposing HTTP endpoints, parsing incoming data from request, invoking the function, and finally transforming the resultant value into a proper HTTP response.
 
