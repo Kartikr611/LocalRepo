@@ -1,0 +1,394 @@
+= Introducing Serverless Functions
+
+Servlerless functions help to effortlessly create, build and deploy services, without having to know about the intricate details of the underlying infrastructure. These simple functions, designed to let the developers focus on accepting input, perform the defined business logic and finally, produce an output.  
+
+
+
+To create Knative functions on your workstation, you need the following:
+
+. `kubectl` and `kn` CLI to be installed.
+. OCI-compliant container runtime such as `Podman` or `Docker`.
+. Knative Service needs to be installed and running
+. `kn func` CLI plugin.
+
+`kn func` CLI can generate function projects from pre-defined set of templates that generate function projects from boilerplates. These project templates are available for a variety of languages such as Nodejs, Quarkus, Python, Go etc. It also allows you to select the invocation format of the function from two choices - HTTP and CloudEvent, HTTP being the default. These templates depend of language-specific frameworks. When HTTP invocation format is selected, it handles the HTTP invocation procedure.  That includes running an HTTP server, exposing HTTP endpoints, parsing incoming data from request, invoking the function, and finally transforming the resultant value into a proper HTTP response.
+
+`kn func` CLI also helps to build, run and deploy them efficiently. These functions are deployed as standard Knative services, entitling it to have all capabilities of Knative services such being event-driven and auto-scalable.
+
+
+
+The development of Serverless Functions follow the following steps:
+
+. First, create a serverless function project in your preferred runtime by executing the `kn func create` command.
+. Refine the generated boilerplate code based on your specific requirements, enabling the function to access request data, execute your business logic, and generate an appropriate response.
+. Utilize the `kn func build` subcommand to generate a container image from the project. This image is saved locally.
+. Execute the function locally with the `kn func run` subcommand.
+. Push the built image to a container image registry for implementing
+. Finally, use the `kn func deploy` subcommand to push the image to container registry and run the function on the cluster as a Knative service.
+
+In the following section, we will understand these steps in details.
+
+
+= Creating Serverless Functions
+
+`kn func create` command generates a function project from a template. This command has the following syntax:
+
+[subs=+quotes]
+----
+kn func create -l <language-runtime> [-t <template>] <project-name>
+----
+
+The `-l` flag sets the runtime language.
+Knative Serverless Functions has support for multiple runtime languages, such as Node.js, Quarkus, Go and others.
+
+To specify the invocation type during template creation, utilize the `-t` flag.
+Knative Functions has two invocation types - `http` and `cloudevents` for every language runtime it supports. Without mentioning a template, it uses `http`, that generates functions responding to HTTP requests.
+When selected, the `cloudevents` template creates event-driven functions that handle Cloud Events.
+
+the project-name provides the name for local project directory. By default, this parameter is used as the name for project directory, function name, container image name as well as Knative service name. 
+
+For more information on all available flags for this command, execute `kn func create --help`.
+
+
+Running the `kn func create` command creates a serverless function project, having `func.yaml` configuration file. This file handles the build and deployment procedures of the function when using  `kn func` commands afterwards. the `kn func` commands handles updating this file, hence, unless a specific customization is needed, it is not needed to be modified manually.
+
+The following example highlights some important fields of the `func.yaml` file.
+
+[subs=+quotes]
+----
+`version: 0.19.0` 
+`name: greeting` 
+namespace: ""
+runtime: node
+`image: quay.io/youruser/greeting:latest`
+imageDigest: sha256:hfks.....8fkd
+healthEndpoints:
+  liveness: /health/liveness
+  readiness: /health/readiness
+volumes: []
+buildEnvs: []
+envs: []
+annotations: {}
+options: {}
+labels: []
+----
+
+When running `kn func build` command, the version, as well as the function image and other relevant details are going to be updated. 
+
+This file contains additional configuration properties allowing you to modify the deployment of the function. These properties include settings such as environment variables, labels, volumes, and others.
+
+= Building Knative Functions
+
+`kn func build` command creates a local container image for the project. This image can be pushed into a container image registry in the subsequent steps. This command uses the values defined in the `func.yaml` file. It can also update the `func.yaml` file, when executed with specific command line options.
+
+[subs=+quotes]
+----
+kn func build  [-i <image-name>] [-r <registry-name] [-p <path>] [--push]
+----
+
+Before the initial build, the `image` property of the `func.yaml` file is empty. It defaults to the project name for the image name. Alternatively, an image name can be specified by using `-i` or `-r` flags. The `-i (or --image)` flag to updates the default full image name in the form of `[registry]/[namespace]/[name]/:tag`.
+
+However, the `-r (or --registry)` flag adds the registry and namespace of the image registry,
+`docker.io/youruser`, for example.
+In the absence of this option, the registry defaults to the value provided in `func.yaml`, or the `$FUNC_REGISTRY` environment variable.
+
+`kn func build --help` command shows all possible options for this command. 
+
+= Running Knative Functions
+
+Once the function container image is built,  the `kn func run` command executes the previously built container image of the function locally. 
+
+you have the option to use the `-b` (or `--build`) flag with the `run` command, letting it to automatically build the container image. This will triggers the build only if the image wasn't built earlier.
+
+Few of the Knative function runtime templates, for example Node.js and Quarkus, can also be executed as traditional applications. So, developers can use standard development tools like NPM or Maven to run functions directly on their host systems rather than within a container.
+
+
+= Deploying Knative Functions
+
+The `kn func deploy` command builds a container image, pushes it to specified image regisrtry and deploys the function to the cluster. This command depends on the `func.yaml` file to find the configuration for the resultant service. In line with the `build` command, specific flags of the `deploy` command can change the configuration of the `func.yaml` file.
+
+
+[subs=+quotes]
+----
+kn func deploy [-n <namespace>] [-p <path>] [-i <image-name>] [...]
+----
+The `-n` (or `--namespace`) flag specifies a namespace. If the command is executed from a directory different from the project directory, add the `-p` (or `--path`) flag to specify the path of the function directory. The `-i` (or `--image`) flag specifies an image name to the project, replacing the image specified in `func.yaml`.
+
+Executing this command provides information in its output, including the complete name of the deployed container image and the URL of the function.
+
+
+
+
+== Example: Creating a Function Project in Node.js
+
+The following Knative function is developed to handle incoming HTTP requests and provide response based on the HTTP method. If the incoming request is an HTTP GET, the function verifies for the existence of a 'name' parameter in the query string. If the 'name' parameter is there, the function responds with a personalized greeting message containing the name; otherwise, it returns a generic greeting message. If the request is not an HTTP GET, it returns a response with a status code of 405 (Method Not Allowed) and a status message. 
+
+The next steps will demonstrate creating, build, local run and deployment of the Knative function to the cluster.
+
+
+1. Create a serverless function project.
+
+a. From your workspace directory, create a new directory called `functions-example`. Navigate to the `functions-example` directory.
++
+[subs="+attributes,+quotes"]
+----
+[student@workstation]$ *mkdir functions-example && cd functions-example*
+----
+
+b. Create a function by using node as the runtime and `http` as the template type.
++
+[subs="+attributes,+quotes"]
+----
+[student@workstation functions-example]$ *kn func create -l node -t http greeting*
+Created node function in /home/student/function-example/greeting
+
+----
+
+This will create a directory inside the `functions-example` directory called `greeting`
+
+c. Navigate to the `greeting` directory.
+This is the root directory of the project.
++
+[subs="+quotes"]
+----
+[student@workstation functions-example]$ *cd greeting*
+----
+
+
+2. Implement the serverless function to return customized greeting message.
+
+a. Copy the following content into the `index.js` file, replacing its existing content:
++
+[subs=+quotes]
+```
+const handle = async (context) => {
+
+  if (context.method === 'GET') {
+    // If the request is an HTTP GET, the context will include a query string, if it exists
+    const { name } = context.query;
+    
+    if (name) {
+      return { message: `Hello, ${name}! Have fun with Knative functions!` };
+    } else {
+      return { message: 'Hello! Have fun with Knative functions!' };
+    }
+  } else {
+    return { statusCode: 405, statusMessage: 'Method not allowed' };
+  }
+}
+
+
+module.exports = { handle };
+
+```
+
+
+b. Replace the existing content and replace with the following content into the `test/unit.js` file:
++
+[subs="+quotes"]
+```
+'use strict';
+
+const func = require('..').handle; 
+const test = require('tape');
+
+const fixture = { log: { info: console.log } };
+
+test('Unit: handles an HTTP GET with name parameter', async t => {
+  t.plan(1);
+  // Invoke the function with query string, which should return a greeting message.
+  const result = await func({ ...fixture, method: 'GET', query: { name: 'Joe' } });
+  t.deepEqual(result, { message: 'Hello, Joe! Have fun with Knative functions!' });
+  t.end();
+});
+
+test('Unit: handles an HTTP GET without name parameter', async t => {
+  t.plan(1);
+  // Invoke the function without the query string, which should return a default greeting message.
+  const result = await func({ ...fixture, method: 'GET', query: {} });
+  t.deepEqual(result, { message: 'Hello! Have fun with Knative functions!' });
+  t.end();
+});
+
+
+test('Unit: responds with error code if not GET', async t => {
+  t.plan(1);
+  // Invoke the function with an unsupported method, which should return an error.
+  const result = await func(fixture);
+  t.deepEqual(result, { statusCode: 405, statusMessage: 'Method not allowed' });
+  t.end();
+});
+
+
+```
+
+
+c. To keep things simple, we are not writing integration tests for this applications. Therefore, remove the `test/integration.js` file.
+----
+   [student@workstation greeting]$ rm test/integration.js
+----
++
+
+c. As we have removed the integration.js containing boilerplate integration test cases, hence we also need to edit the `npm test` script in `package.json` file. Open `package.json` file and replace it's content with the following:
+
+```
+{
+  "name": "greeting",
+  "version": "1.0.0",
+  "description": "A function which responds to HTTP requests and returns customized greetings message based on the availability of QueryString",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/unit.js",
+    "start": "FUNC_LOG_LEVEL=info faas-js-runtime ./index.js",
+    "debug": "nodemon --inspect ./node_modules/faas-js-runtime/bin/cli.js ./index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "faas-js-runtime": "^2.2.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.1",
+    "tape": "^5.0.1"
+  }
+}
+
+
+
+```
+
+
+3. Test the serverless function by running the provided automated tests.
+
+a. Install the project requirements to test the function locally.
++
+[subs=+quotes]
+----
+[student@workstation greeting]$ *npm install*
+----
+
+b. Run the unit tests from `test/unit.js` file by executing the following command:
++
+[subs=+quotes]
+----
+[student@workstation greeting]$ *npm test*
+
+> greeting@1.0.0 test /home/student/function-example/greeting
+> node test/unit.js
+
+TAP version 13
+# Unit: handles an HTTP GET with name parameter
+ok 1 should be deeply equivalent
+# Unit: handles an HTTP GET without name parameter
+ok 2 should be deeply equivalent
+# Unit: responds with error code if not GET
+ok 3 should be deeply equivalent
+
+1..3
+# tests 3
+# pass  3
+
+# ok
+----
++
+Three tests should pass.
+
+
+
+
+4. Build the serverless function.
+
+a. Build the `greeting` function with the `kn func build` command.
++
+[subs="+quotes"]
+----
+[student@workstation greeting]$ *kn func build*
+
+Note: building a function the first time will take longer than subsequent builds
+Building function image
+🙌 Function built: quay.io/student/greeting:latest
+----
+In the output shown above, the image is being published in quay.io, for the namespace `student`. This will change based on the image registry and namespace specified during the build process.
+
+
+
+The build command uses the function project name and the image registry name to construct a fully qualified image name for your function. This command builds a container image that can be run locally or on a cluster.
+
+
+[NOTE]
+====
+. During the execution of `kn func build` command, it might prompt you to provide the image registry name for the function images. You can provide the registry name such as 'quay.io/youruser' or 'docker.io/youruser' where `youruser` is your user or team namespace in the image registry.
+====
+
+b. You can verify that the image is available locally by running 'podman images' or 'docker images' command based on whether you have podman or docker installed in your workstation.
++
+[subs="+quotes"]
+----
+[student@workstation greeting]$ *podman images | grep greeting*
+quay.io/student/greeting              latest      db82f3149dae  43 years ago  329 MB
+----
+
+5. Deploy serverless function to Kubernetes.
+
+a. Deploy the `greeting` function with the `kn func deploy` command.
++
+[subs="+quotes"]
+----
+[student@workstation greeting]$ *kn func deploy -v*
+function up-to-date. Force rebuild with --build
+Please provide credentials for image registry (quay.io).
+? Username: youruser
+? Password: ************
+Credentials will not be saved.
+If you would like to save your credentials in the future,
+you can install docker credential helper https://github.com/docker/docker-credential-helpers.
+Pushing function image to the registry "quay.io" using the "youruser" user credentials
+The push refers to repository [quay.io/youruser/greeting:latest]
+latest: digest: sha256:e67b1a97f78466ff10ad7c7cefc3693007de477842935802e7508c06a3942912 size: 2203
+⬆️  Deploying function to the cluster
+{"level":30,"time":1700097640211,"pid":27,"hostname":"greeting-00002-deployment-5dc7cc4b76-z2m2d","node_version":"v20.9.0","msg":"Server listening at http://[::]:8080"}
+{"level":30,"time":1700097640578,"pid":27,"hostname":"greeting-00002-deployment-5dc7cc4b76-z2m2d","node_version":"v20.9.0","reqId":"req-1","req":{"method":"GET","url":"/health/readiness","hostname":"127.0.0.1:8080","remoteAddress":"::ffff:127.0.0.1","remotePort":49498},"msg":"incoming request"}
+{"level":30,"time":1700097640581,"pid":27,"hostname":"greeting-00002-deployment-5dc7cc4b76-z2m2d","node_version":"v20.9.0","reqId":"req-1","res":{"statusCode":200},"responseTime":2.825202999636531,"msg":"request completed"}
+{"level":30,"time":1700097640588,"pid":27,"hostname":"greeting-00002-deployment-5dc7cc4b76-z2m2d","node_version":"v20.9.0","reqId":"req-2","req":{"method":"GET","url":"/health/readiness","hostname":"127.0.0.1:8080","remoteAddress":"::ffff:127.0.0.1","remotePort":49504},"msg":"incoming request"}
+{"level":30,"time":1700097640589,"pid":27,"hostname":"greeting-00002-deployment-5dc7cc4b76-z2m2d","node_version":"v20.9.0","reqId":"req-2","res":{"statusCode":200},"responseTime":0.24799200147390366,"msg":"request completed"}
+✅ Function updated in namespace "default" and exposed at URL: 
+   http://greeting.default.apps.example.com
+----
+
+[NOTE]
+====
+. During this step, it might ask you for your image registry credentials.
+. Please ensure that the image in the image registry is public, otherwise, you might get the following error:
+
+----
+deploy error: your function image is unreachable. It is possible that your docker registry is private. If so, make sure you have set up pull secrets https://knative.dev/docs/developer/serving/deploying-from-private-registry
+Error: your function image is unreachable. It is possible that your docker registry is private. If so, make sure you have set up pull secrets https://knative.dev/docs/developer/serving/deploying-from-private-registry
+Error: exit status 1
+----
+====
++
+
+b. You can find the function URL from the output of the preceding command.
+Alternatively, you can find the URL by using the `kn route list` command.
+
+c. Append the `name` parameter to the function URL
+
+The URL should look like the following.
++
+[subs=+quotes]
+-----
+http://greeting.default.apps.example.com?name=Joe
+-----
+
+The URL will be different based on the cluster where you are deploying the Knative function.
+
+d. Send a request to the function URL including the `name` parameter.
+The output should look similar to the following example:
++
+[subs=+quotes]
+----
+[student@workstation greeting]$ *curl -s http://greeting.default.apps.example.com?name=Joe
+{"message":"Hello, Joe!"}
+----
