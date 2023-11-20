@@ -1,6 +1,6 @@
 = Introducing Serverless Functions
 
-Servlerless functions help to effortlessly create, build and deploy services, without having to know about the intricate details of the underlying infrastructure. These simple functions, designed to let the developers focus on accepting input, perform the defined business logic and finally, produce an output.  
+Serverless functions help to effortlessly create, build and deploy services, without having to know about the intricate details of the underlying infrastructure. These simple functions are designed to let the developers focus on accepting input, perform the defined business logic, and finally, produce an output.  
 
 
 
