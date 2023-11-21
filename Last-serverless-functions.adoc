@@ -152,10 +152,9 @@ Executing this command provides information in its output, including the complet
 
 == Example: Creating a Function Project in Node.js
 
-The following Knative function is developed to handle incoming HTTP requests and provide response based on the HTTP method. 
-If the incoming request is an HTTP GET, the function verifies for the existence of a 'name' parameter in the query string. 
-If the 'name' parameter is there, the function responds with a personalized greeting message containing the name; otherwise, it returns a generic greeting message. 
-If the request is not an HTTP GET, it returns a response with a status code of 405 (Method Not Allowed) and a status message. 
+The Knative function demonstrated in this example accepts incoming HTTP requests and responds with a greeting message if the incoming request is HTTP GET. 
+The function looks for the query string parameter 'name', if provided, it responds with a custom greetings containing the name; otherwise, it returns a generic greeting message. 
+For all the HTTP methods other than HTTP GET, the function returns HTTP status code 405 (Method Not Allowed).
 
 The subsequent steps demonstrate how to create, build, locally run, and deploy the Knative function.
 
