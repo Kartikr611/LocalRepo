@@ -122,7 +122,7 @@ In the absence of this option, the registry defaults to the value provided in `f
 Once the function container image is built,  the `kn func run` command executes the previously built container image of the function locally. 
 
 You have the option to use the `-b` (or `--build`) flag with the `run` command, letting it to automatically build the container image. 
-This triggers the build only if the image wasn't built earlier.
+This option triggers the build only if the image wasn't built earlier.
 
 Few of the Knative function runtime templates, for example Node.js and Quarkus, can also be executed as traditional applications. 
 So, developers can use standard development tools like NPM or Maven to run functions directly on their host systems rather than within a container.
