@@ -63,7 +63,7 @@ Running the `kn func create` command creates a serverless function project, havi
 This file handles the build and deployment procedures of the function when using  `kn func` commands afterwards. 
 The `kn func` commands handles updating this file, hence, unless a specific customization is needed, it is not needed to be modified manually.
 
-The following example highlights some important fields of the `func.yaml` file.
+The following example highlights some important fields of the `func.yaml` file:
 
 [subs=+quotes]
 ----
