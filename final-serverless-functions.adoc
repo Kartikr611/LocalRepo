@@ -340,12 +340,8 @@ Building function image
 🙌 Function built: quay.io/student/greeting:latest
 ----
 +
-In the output shown above, the image is being published in quay.io, for the namespace `student`. This will change based on the image registry and namespace specified during the build process.
-
-
-
+In the output shown above, the image is being published in quay.io, for the namespace `student`. This will change based on the image registry and namespace specified during the build process. +
 The build command uses the function project name and the image registry name to construct a fully qualified image name for your function. This command builds a container image that can be run locally or on a cluster.
-
 +
 [NOTE]
 ====
@@ -409,11 +405,11 @@ c. Append the `name` parameter to the function URL
 +
 The URL should look like the following.
 +
+
 [subs=+quotes]
 -----
 http://greeting.default.apps.example.com?name=Joe
 -----
-
 The URL will be different based on the cluster where you are deploying the Knative function.
 
 d. Send a request to the function URL including the `name` parameter.
