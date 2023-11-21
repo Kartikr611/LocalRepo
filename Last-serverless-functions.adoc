@@ -86,7 +86,8 @@ labels: []
 
 When running `kn func build` command, the version, as well as the function image and other relevant details are going to be updated. 
 
-This file contains additional configuration properties allowing you to modify the deployment of the function. These properties include settings such as, environment variables, labels, volumes, and others.
+This file contains additional configuration properties allowing you to modify the deployment of the function. 
+These properties include settings such as, environment variables, labels, volumes, and others.
 
 = Building Knative Functions
 
