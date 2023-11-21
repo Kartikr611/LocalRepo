@@ -19,7 +19,7 @@ When HTTP invocation format is selected, it handles the HTTP invocation procedur
 `kn func` CLI also helps to build, run, and deploy functions efficiently. 
 These functions are deployed as standard Knative services, entitling it to have all capabilities of Knative services like being event-driven and auto-scalable.
 
-To get a breif overview of the development cycle of Serverless Functions refer to the steps below :
+To get a breif overview of the development cycle of Serverless Functions, refer to the steps below :
 
 . First, you need to create a serverless function project in your preferred runtime by executing the `kn func create` command.
 . Then, refine the generated boilerplate code based on your specific requirements, enabling the function to access request data, execute your business logic, and generate an appropriate response.
