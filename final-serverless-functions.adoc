@@ -171,10 +171,9 @@ b. Create a function by using node as the runtime and `http` as the template typ
 ----
 [student@workstation functions-example]$ *kn func create -l node -t http greeting*
 Created node function in /home/student/function-example/greeting
-
 ----
-
 This will create a directory inside the `functions-example` directory called `greeting`
+
 
 c. Navigate to the `greeting` directory.
 This is the root directory of the project.
