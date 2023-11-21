@@ -10,7 +10,8 @@ To create Knative functions on your workstation, you need the following:
 . Knative Serving needs to be installed and running
 . `kn func` CLI plugin
 
-`kn func` CLI can generate function projects from pre-defined set of templates that generate function projects from boilerplates. 
+`kn func` CLI is an important element that helps implementing serverless functions.
+It can generate function projects from pre-defined set of templates that generate function projects from boilerplates. 
 These project templates are available for a variety of languages such as Node.js, Quarkus, Python, Go etc.
 It also allows you to select the invocation format of the function from two choices—HTTP and CloudEvent, HTTP being the default. 
 These templates depend on language-specific frameworks. 
@@ -256,14 +257,16 @@ test('Unit: responds with error code if not GET', async t => {
 ```
 
 
-c. To keep things simple, we are not writing integration tests for this applications. Therefore, remove the `test/integration.js` file.
+c. To keep things simple, we are not writing integration tests for this applications. 
+Therefore, remove the `test/integration.js` file.
 +
 ----
    [student@workstation greeting]$ rm test/integration.js
 ----
 +
 
-d. As we have removed the integration.js containing boilerplate integration test cases, hence we also need to edit the `npm test` script in `package.json` file. Open `package.json` file and replace it's content with the following:
+d. As we have removed the integration.js containing boilerplate integration test cases, hence we also need to edit the `npm test` script in `package.json` file. 
+Open `package.json` file and replace it's content with the following:
 +
 ```
 {
@@ -345,7 +348,8 @@ Building function image
 ----
 +
 In the output shown above, the image is being published in quay.io, for the namespace `student`. This changes based on the image registry and namespace specified during the build process. +
-The build command uses the function project name and the image registry name to construct a fully qualified image name for your function. This command builds a container image that can be run locally or on a cluster.
+The build command uses the function project name and the image registry name to construct a fully qualified image name for your function. 
+This command builds a container image that can be run locally or on a cluster.
 +
 [NOTE]
 ====
@@ -414,7 +418,7 @@ The URL should look like the following.
 -----
 http://greeting.default.apps.example.com?name=Joe
 -----
-The URL will be different based on the cluster where you are deploying the Knative function.s
+The URL will be different based on the cluster where you are deploying the Knative functions.
 
 d. Send a request to the function URL including the `name` parameter.
 The output should look similar to the following example:
