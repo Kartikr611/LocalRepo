@@ -151,7 +151,10 @@ Executing this command provides information in its output, including the complet
 
 == Example: Creating a Function Project in Node.js
 
-The following Knative function is developed to handle incoming HTTP requests and provide response based on the HTTP method. If the incoming request is an HTTP GET, the function verifies for the existence of a 'name' parameter in the query string. If the 'name' parameter is there, the function responds with a personalized greeting message containing the name; otherwise, it returns a generic greeting message. If the request is not an HTTP GET, it returns a response with a status code of 405 (Method Not Allowed) and a status message. 
+The following Knative function is developed to handle incoming HTTP requests and provide response based on the HTTP method. 
+If the incoming request is an HTTP GET, the function verifies for the existence of a 'name' parameter in the query string. 
+If the 'name' parameter is there, the function responds with a personalized greeting message containing the name; otherwise, it returns a generic greeting message. 
+If the request is not an HTTP GET, it returns a response with a status code of 405 (Method Not Allowed) and a status message. 
 
 The subsequent steps will demonstrate how to create, build, locally run, and deploy the Knative function.
 
@@ -172,7 +175,7 @@ b. Create a function by using node as the runtime and `http` as the template typ
 [student@workstation functions-example]$ *kn func create -l node -t http greeting*
 Created node function in /home/student/function-example/greeting
 ----
-This will create a directory inside the `functions-example` directory called `greeting`
+This will create a directory inside the `functions-example` directory called `greeting`.
 
 
 c. Navigate to the `greeting` directory.
