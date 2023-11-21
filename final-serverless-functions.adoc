@@ -97,13 +97,20 @@ This file contains additional configuration properties allowing you to modify th
 kn func build  [-i <image-name>] [-r <registry-name] [-p <path>] [--push]
 ----
 
-Before the initial build, the `image` property of the `func.yaml` file is empty. It defaults to the project name for the image name. Alternatively, an image name can be specified by using `-i` or `-r` flags. The `-i (or --image)` flag to updates the default full image name in the form of `[registry]/[namespace]/[name]/:tag`.
+Before the initial build, the `image` property of the `func.yaml` file is empty. It defaults to the project name for the image name. Alternatively, an image name can be specified by using `-i` or `-r` flags. 
 
-However, the `-r (or --registry)` flag adds the registry and namespace of the image registry,
-`docker.io/youruser`, for example.
+To understand the use of these flags, refer to the points below:
+
+. The `-i (or --image)` flag is used to update the default full image name in the form of `[registry]/[namespace]/[name]/:tag`.
+
+. However, the `-r (or --registry)` flag adds the registry and namespace of the image registry.
+For example, `docker.io/youruser`.
 In the absence of this option, the registry defaults to the value provided in `func.yaml`, or the `$FUNC_REGISTRY` environment variable.
 
+[NOTE]
+====
 `kn func build --help` command shows all possible options for this command. 
+====
 
 = Running Knative Functions
 
