@@ -90,14 +90,19 @@ This file contains additional configuration properties allowing you to modify th
 
 = Building Knative Functions
 
-`kn func build` command creates a local container image for the project. This image can be pushed into a container image registry in the subsequent steps. This command uses the values defined in the `func.yaml` file. It can also update the `func.yaml` file, when executed with specific command line options.
+`kn func build` command creates a local container image for the project. 
+This image can be pushed into a container image registry in the subsequent steps. 
+This command uses the values defined in the `func.yaml` file. 
+It can also update the `func.yaml` file, when executed with specific command line options.
 
 [subs=+quotes]
 ----
 kn func build  [-i <image-name>] [-r <registry-name] [-p <path>] [--push]
 ----
 
-Before the initial build, the `image` property of the `func.yaml` file is empty. It defaults to the project name for the image name. Alternatively, an image name can be specified by using `-i` or `-r` flags. 
+Before the initial build, the `image` property of the `func.yaml` file is empty. 
+It defaults to the project name for the image name. 
+Alternatively, an image name can be specified by using `-i` or `-r` flags. 
 
 To understand the use of these flags, refer to the points below:
 
@@ -116,21 +121,27 @@ In the absence of this option, the registry defaults to the value provided in `f
 
 Once the function container image is built,  the `kn func run` command executes the previously built container image of the function locally. 
 
-You have the option to use the `-b` (or `--build`) flag with the `run` command, letting it to automatically build the container image. This triggers the build only if the image wasn't built earlier.
+You have the option to use the `-b` (or `--build`) flag with the `run` command, letting it to automatically build the container image. 
+This triggers the build only if the image wasn't built earlier.
 
-Few of the Knative function runtime templates, for example Node.js and Quarkus, can also be executed as traditional applications. So, developers can use standard development tools like NPM or Maven to run functions directly on their host systems rather than within a container.
+Few of the Knative function runtime templates, for example Node.js and Quarkus, can also be executed as traditional applications. 
+So, developers can use standard development tools like NPM or Maven to run functions directly on their host systems rather than within a container.
 
 
 = Deploying Knative Functions
 
-The `kn func deploy` command builds a container image, pushes it to specified image regisrtry and deploys the function to the cluster. This command depends on the `func.yaml` file to find the configuration for the resultant service. In line with the `build` command, specific flags of the `deploy` command can change the configuration of the `func.yaml` file.
+The `kn func deploy` command builds a container image, pushes it to specified image regisrtry and deploys the function to the cluster. 
+This command depends on the `func.yaml` file to find the configuration for the resultant service. In line with the `build` command, specific flags of the `deploy` command can change the configuration of the `func.yaml` file.
 
 
 [subs=+quotes]
 ----
 kn func deploy [-n <namespace>] [-p <path>] [-i <image-name>] [...]
 ----
-The `-n` (or `--namespace`) flag specifies a namespace. If the command is executed from a directory different from the project directory, add the `-p` (or `--path`) flag to specify the path of the function directory. The `-i` (or `--image`) flag specifies an image name to the project, replacing the image specified in `func.yaml`.
+To understand the command syntax better, refer to the points beelow:
+. The `-n` (or `--namespace`) flag specifies a namespace. 
+. If the command is executed from a directory different from the project directory, add the `-p` (or `--path`) flag to specify the path of the function directory. 
+. The `-i` (or `--image`) flag specifies an image name to the project, replacing the image specified in `func.yaml`.
 
 Executing this command provides information in its output, including the complete name of the deployed container image and the URL of the function.
 
