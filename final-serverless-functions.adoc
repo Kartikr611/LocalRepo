@@ -138,7 +138,8 @@ This command depends on the `func.yaml` file to find the configuration for the r
 ----
 kn func deploy [-n <namespace>] [-p <path>] [-i <image-name>] [...]
 ----
-To understand the command syntax better, refer to the points beelow:
+To understand the command syntax better, refer to the points below:
+
 . The `-n` (or `--namespace`) flag specifies a namespace. 
 . If the command is executed from a directory different from the project directory, add the `-p` (or `--path`) flag to specify the path of the function directory. 
 . The `-i` (or `--image`) flag specifies an image name to the project, replacing the image specified in `func.yaml`.
