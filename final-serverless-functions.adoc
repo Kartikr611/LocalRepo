@@ -19,15 +19,12 @@ When HTTP invocation format is selected, it handles the HTTP invocation procedur
 `kn func` CLI also helps to build, run, and deploy functions efficiently. 
 These functions are deployed as standard Knative services, entitling it to have all capabilities of Knative services like being event-driven and auto-scalable.
 
+To get a breif overview of the development cycle of Serverless Functions refer to the steps below :
 
-
-Refer to the steps below to get a breif overview of the development cycle of Serverless Functions:
-
-. First, create a serverless function project in your preferred runtime by executing the `kn func create` command.
-. Refine the generated boilerplate code based on your specific requirements, enabling the function to access request data, execute your business logic, and generate an appropriate response.
-. Utilize the `kn func build` subcommand to generate a container image from the project. This image is saved locally.
-. Execute the function locally with the `kn func run` subcommand.
-. Push the built image to a container image registry for implementing
+. First, you need to create a serverless function project in your preferred runtime by executing the `kn func create` command.
+. Then, refine the generated boilerplate code based on your specific requirements, enabling the function to access request data, execute your business logic, and generate an appropriate response.
+. After that you have to utilize the `kn func build` subcommand to generate a container image from the project. This image is saved locally.
+. Then, execute the function locally with the `kn func run` subcommand and push the built image to a container image registry.
 . Finally, use the `kn func deploy` subcommand to push the image to container registry and run the function on the cluster as a Knative service.
 
 In the following section, we will understand these steps in details.
