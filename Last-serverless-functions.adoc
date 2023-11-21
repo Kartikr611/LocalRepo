@@ -29,7 +29,7 @@ To get a brief overview of the development cycle of Serverless Functions, refer 
 . Then, execute the function locally with the `kn func run` subcommand. 
 . Finally, use the `kn func deploy` subcommand to push the image to the container registry and run the function on the cluster as a Knative service.
 
-In the following section, we will understand these steps in details.
+In the following sections, we will understand these steps in details.
 
 
 = Creating Serverless Functions
