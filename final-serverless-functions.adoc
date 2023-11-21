@@ -21,7 +21,7 @@ These functions are deployed as standard Knative services, entitling it to have 
 
 
 
-The development of Serverless Functions consist of the following steps:
+Refer to the steps below to get a breif overview of the development cycle of Serverless Functions:
 
 . First, create a serverless function project in your preferred runtime by executing the `kn func create` command.
 . Refine the generated boilerplate code based on your specific requirements, enabling the function to access request data, execute your business logic, and generate an appropriate response.
