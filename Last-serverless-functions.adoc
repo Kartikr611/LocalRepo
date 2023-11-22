@@ -145,11 +145,10 @@ kn func deploy [-n <namespace>] [-p <path>] [-i <image-name>] [...]
 To understand the command syntax better, refer to the points below:
 
 . The `-n` (or `--namespace`) flag specifies a namespace. 
-. If the command is executed from a directory different from the project directory, add the `-p` (or `--path`) flag to specify the path of the function directory. 
+. If the command is executed from a directory different than the project directory, add the `-p` (or `--path`) flag to specify the path of the function directory. 
 . The `-i` (or `--image`) flag specifies an image name to the project, replacing the image specified in `func.yaml`.
 
 Executing this command provides information in its output, including the complete name of the deployed container image and the URL of the function.
-
 
 
 
