@@ -257,7 +257,7 @@ test('Unit: responds with error code if not GET', async t => {
 ```
 
 
-c. To keep things simple, we are not writing integration tests for this applications. 
+c. To keep things simple, we are not writing integration tests for this application. 
 Therefore, remove the `test/integration.js` file.
 +
 ----
