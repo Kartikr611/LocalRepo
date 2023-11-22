@@ -211,7 +211,7 @@ You can install the operator for the release v{operator-release} by running the 
 kubectl apply -f https://github.com/knative/operator/releases/download/knative-v{operator-release}/operator.yaml
 
 
-. After installing the Knative operator, confirm successful installation by running the following commeand:
+After installing the Knative operator, confirm successful installation by running the following commeand:
 [source,bash]
 kubectl get deployment knative-operator
 
