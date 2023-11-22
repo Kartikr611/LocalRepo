@@ -45,16 +45,16 @@ kn func create [-t <template>] -l <language-runtime> <project-name>
 To understand the command syntax better, refer to the points below:
 
 . The `-t` flag is used to specify the invocation type during template creation.
-Knative functions has two invocation types—`http` and `cloudevents` for every language runtime it supports. 
-a. Without mentioning a template, it uses `http`, that generates functions responding to HTTP requests.
+Knative functions have two invocation types—`http` and `cloudevents` for every language runtime it supports. 
+a. Without mentioning a template, it uses `http`, which generates functions responding to HTTP requests.
 b. When selected, the `cloudevents` template creates event-driven functions that handle Cloud Events.
 
 . The `-l` flag sets the runtime language.
 Knative Serverless Functions has support for multiple runtime languages, such as Node.js, Quarkus, Go, and others.
 
 
-. The project-name provides the name for local project directory. 
-By default, this parameter is used as the name for project directory, function name, container image name as well as Knative service name. 
+. The project-name provides the name for the local project directory. 
+By default, this parameter is used as the name for the project directory, function name, container image name as well as Knative service name. 
 
 [NOTE]
 ====
