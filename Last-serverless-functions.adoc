@@ -65,7 +65,7 @@ Running the `kn func create` command creates a serverless function project, havi
 This file handles the build and deployment procedures of the function when using  `kn func` commands afterward. 
 The `kn func` commands handle updating this file, hence, unless a specific customization is needed, it does not need to be modified manually.
 
-The following example highlights some important fields of the `func.yaml` file:
+The example shown below highlights some important fields of the `func.yaml` file:
 
 [subs=+quotes]
 ----
@@ -86,10 +86,10 @@ options: {}
 labels: []
 ----
 
-When running `kn func build` command, the version, as well as the function image and other relevant details are going to be updated. 
+When running the `kn func build` command, the version, as well as the function image and other relevant details are going to be updated. 
 
 This file contains additional configuration properties allowing you to modify the deployment of the function. 
-These properties include settings such as, environment variables, labels, volumes, and others.
+These properties include settings such as environment variables, labels, volumes, and others.
 
 = Building Knative Functions
 
