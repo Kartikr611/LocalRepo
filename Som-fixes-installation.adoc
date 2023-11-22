@@ -180,18 +180,7 @@ You can execute the `kn` tool from the downloaded directory, or you can move the
 mv kn /usr/local/bin
 ----
 
-To verify the correct installation of the Knative CLI, you can execute the following command to obtain information about the version of the CLI binary:
-
-[source,bash]
-----
-kn version
-----
-
-[NOTE]
-====
-The `kn` tool uses the `kubeconfig` file to connect to the Kubernetes cluster.
-Please refer to the https://knative.dev/docs/install/client/#connecting-cli-tools-to-your-cluster[official documentation] for more information about connecting to your Kubernetes cluster by using the Knative CLI.
-====
+To verify the correct installation of the Knative CLI, you can execute the following command to obtain information about
 
 = Install by using the Knative Operator
 
@@ -310,12 +299,12 @@ To verify the status of the Knative Serving Custom Resource you can use the foll
 [source,bash]
 kubectl get KnativeServing knative-serving -n knative-serving
 
+The following output shows Knative Serving Custom Resource to be ready, if the installation is successful.
 
 [source,bash,subs="attributes"]
 NAME              VERSION               READY        REASON
 knative-serving   {operator-release}                True    
 
-The preceding command shows Knative Serving Custom Resource to be ready, if the installation is successful.
 
 === Set up DNS
 
