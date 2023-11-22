@@ -244,8 +244,7 @@ metadata:
   name: knative-serving
   namespace: knative-serving
 
-
-Executing the command deploys Knative Serving Custom Resource in the `knative-serving` namespace::
+Executing the following command will first create a namespace called `knative-serving` and then will install the Knative Serving Custom resource in that namespace:
 
 [source,bash]
 kubectl apply -f knative-serving.yaml
