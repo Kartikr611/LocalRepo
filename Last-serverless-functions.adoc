@@ -103,7 +103,7 @@ It can also update the `func.yaml` file, when executed with specific command lin
 kn func build  [-r <registry-name] [-i <image-name>]  [-p <path>] [--push]
 ----
 
-Before the initial build, the `image` property of the `func.yaml` file is empty. 
+Prior to the initial build, the `image` property of the `func.yaml` file is empty. 
 It defaults to the project name for the image name. 
 Alternatively, an image name can be specified by using `-i` or `-r` flags. 
 
