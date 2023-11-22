@@ -217,7 +217,7 @@ module.exports = { handle };
 ```
 
 
-b. Replace the existing content and replace with the following content into the `test/unit.js` file:
+b. Replace the existing content with the following content in the `test/unit.js` file:
 +
 [subs="+quotes"]
 ```
@@ -265,7 +265,7 @@ Therefore, remove the `test/integration.js` file.
 ----
 +
 
-d. As we have removed the integration.js containing boilerplate integration test cases, hence we also need to edit the `npm test` script in `package.json` file. 
+d. As we have removed the integration.js containing boilerplate integration test cases, we also need to edit the `npm test` script in `package.json` file. 
 Open `package.json` file and replace it's content with the following:
 +
 ```
