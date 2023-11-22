@@ -109,7 +109,7 @@ Alternatively, an image name can be specified by using `-i` or `-r` flags.
 
 To understand the use of these flags, refer to the points below:
 
-. The `-r (or --registry)` flag adds the registry and namespace of the image registry.
+. The `-r (or --registry)` flag adds the registry and namespace of the image.
 For example, `docker.io/youruser`.
 In the absence of this option, the registry defaults to the value provided in `func.yaml`, or the `$FUNC_REGISTRY` environment variable.
 
