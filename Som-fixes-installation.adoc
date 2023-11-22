@@ -287,7 +287,7 @@ NAME      TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)              
 kourier   LoadBalancer   10.101.101.116   10.101.101.116   80:30864/TCP,443:31928/TCP   35h
 
 
-
+== Validating the installation
 Finally, after running the pervious steps that installs the Knative Serving Custom Resource and configuring the network layer, confirm Knative serving deployment. 
 Upon successful deployment, all deployments are displayed to be ready:
 [source,bash]
