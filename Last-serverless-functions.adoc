@@ -45,7 +45,7 @@ kn func create [-t <template>] -l <language-runtime> <project-name>
 To understand the command syntax better, refer to the points below:
 
 . The `-t` flag is used to specify the invocation type during template creation.
-Knative Functions has two invocation types - `http` and `cloudevents` for every language runtime it supports. 
+Knative functions has two invocation types - `http` and `cloudevents` for every language runtime it supports. 
 a. Without mentioning a template, it uses `http`, that generates functions responding to HTTP requests.
 b. When selected, the `cloudevents` template creates event-driven functions that handle Cloud Events.
 
