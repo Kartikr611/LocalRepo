@@ -230,7 +230,7 @@ Knative Serving installation consists of the following steps:
 3. Set up DNS.
 
 === Creating the Custom Resource for Knative Serving
-Knative Serving specifies and manages the behaviour of your serverless workload on the kubernetes cluster.  
+Knative Serving specifies and manages the behaviour of your serverless workload on the kubernetes cluster. It can be installed as Kubernetes Custom Resource. 
 Create a file having a name `knative-serving.yaml`, with the following content:
 [source,yaml]
 apiVersion: v1
