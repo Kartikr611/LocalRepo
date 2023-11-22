@@ -347,13 +347,15 @@ Building function image
 🙌 Function built: quay.io/student/greeting:latest
 ----
 +
-In the output shown above, the image is being published in quay.io, for the namespace `student`. This changes based on the image registry and namespace specified during the build process. +
+In the output shown above, the image is being published in quay.io, for the namespace `student`. 
+This changes based on the image registry and namespace specified during the build process. +
 The build command uses the function project name and the image registry name to construct a fully qualified image name for your function. 
 This command builds a container image that can be run locally or on a cluster.
 +
 [NOTE]
 ====
-During the execution of `kn func build` command, it might prompt you to provide the image registry name for the function images. You can provide the registry name such as 'quay.io/youruser' or 'docker.io/youruser' where `youruser` is your user or team namespace in the image registry.
+During the execution of `kn func build` command, it might prompt you to provide the image registry name for the function images. 
+You can provide the registry name such as 'quay.io/youruser' or 'docker.io/youruser' where `youruser` is your user or team namespace in the image registry.
 ====
 +
 
