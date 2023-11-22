@@ -353,7 +353,7 @@ This command builds a container image that can be run locally or on a cluster.
 +
 [NOTE]
 ====
-. During the execution of `kn func build` command, it might prompt you to provide the image registry name for the function images. You can provide the registry name such as 'quay.io/youruser' or 'docker.io/youruser' where `youruser` is your user or team namespace in the image registry.
+During the execution of `kn func build` command, it might prompt you to provide the image registry name for the function images. You can provide the registry name such as 'quay.io/youruser' or 'docker.io/youruser' where `youruser` is your user or team namespace in the image registry.
 ====
 +
 
@@ -411,7 +411,7 @@ Alternatively, you can find the URL by using the `kn route list` command.
 
 c. Append the `name` parameter to the function URL
 +
-The URL should look like the following.
+The URL should look like the following:
 +
 
 [subs=+quotes]
