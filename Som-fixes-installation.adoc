@@ -1,0 +1,381 @@
+:serving-release: v1.4.0
+:kourier-release: v1.4.0
+:eventing-release: v1.4.0
+:operator-release: 1.12.0
+
+= Installing Knative
+
+The Knative project provides several options for installing the components such as YAML files, and https://knative.dev/docs/install/operator/knative-with-operators/[operators].
+This section covers the installation of the Knative components in Kubernetes by using YAML files, and the installation of the Knative CLI.
+
+Depending on your application's workload, your system requirements might vary.
+Knative requires at least 2 CPUs and 4 GB of memory for prototyping purposes.
+To use Knative in a production environment, it requires at least 6 CPUs, 6 GB of memory, and 30 GB of disk space.
+
+For the installation process, ensure you have the `kubectl` CLI, and administrative access to a Kubernetes cluster.
+
+== Installing the Knative Serving Component
+
+The first step is to install the custom resource definitions (CRDs) required by the Knative Serving component.
+You can install the CRDs for the release {serving-release} by running the following command:
+
+[source,bash,subs="attributes"]
+----
+kubectl apply -f https://github.com/knative/serving/releases/download/knative-{serving-release}/serving-crds.yaml
+----
+
+The next step is to install the core components of Knative Serving.
+
+[source,bash,subs="attributes"]
+----
+kubectl apply -f https://github.com/knative/serving/releases/download/knative-{serving-release}/serving-core.yaml
+----
+
+The preceding command creates a namespace called `knative-serving` and deploys the core components in this namespace.
+
+=== Installing a Networking Layer
+
+Knative requires a networking layer to manage the traffic and request connections to your containerized applications.
+The Knative Serving component supports different network layers such as https://github.com/knative-sandbox/net-kourier[Kourier], Istio, or Contour.
+The following command installs Kourier {kourier-release}:
+
+[source,bash,subs="attributes"]
+----
+kubectl apply -f https://github.com/knative/net-kourier/releases/download/knative-{kourier-release}/kourier.yaml
+----
+
+After installing Kourier in your Kubernetes cluster, the following command configures Knative Serving, and sets Kourier as the default networking layer:
+
+[source,bash]
+----
+kubectl patch configmap/config-network \
+  --namespace knative-serving \
+  --type merge \
+  --patch '{"data":{"ingress.class":"kourier.ingress.networking.knative.dev"}}'
+----
+
+=== Verifying the Installation of Knative Serving
+
+After installing the required CRDs, the core components of the Knative Serving component, and a network layer, you can execute the following command to monitor the installation process.
+
+----
+kubectl get pods -n knative-serving
+----
+
+In a successful installation, the `STATUS` of all the pods created in the `knative-serving` namespace is `Running` or `Completed`.
+
+=== Configuring the DNS (optional)
+
+To access your containerized applications you might need to configure the DNS in Knative, especially on local Kubernetes installations.
+Knative provides several ways to configure the DNS, you can use a magic DNS, a real DNS, or a temporary DNS.
+
+The following command creates the required resources to use magic DNS with Knative:
+
+[source,bash,subs="attributes"]
+----
+kubectl apply -f https://github.com/knative/serving/releases/download/knative-{serving-release}/serving-default-domain.yaml
+----
+
+The preceding command creates a Job that configures Knative Serving to use `sslip.io` as the DNS suffix.
+
+[NOTE]
+====
+If you are using Minikube, then you might have to execute the `minikube tunnel` command and keep it running in the background.
+The `tunnel` subcommand exposes the `LoadBalancer` services to any program running on your computer.
+====
+
+// -----------------------------------------------------------------------------
+
+== Installing the Knative Eventing Component
+
+The first step is to install the custom resource definitions (CRDs) required by the Knative Eventing component.
+You can install the CRDs for the release {serving-release} by running the following command:
+
+[source,bash,subs="attributes"]
+----
+kubectl apply -f https://github.com/knative/eventing/releases/download/knative-{eventing-release}/eventing-crds.yaml
+----
+
+The next step is to install the core components of Knative Eventing.
+
+[source,bash,subs="attributes"]
+----
+kubectl apply -f https://github.com/knative/eventing/releases/download/knative-{eventing-release}/eventing-core.yaml
+----
+
+The preceding command creates a namespace called `knative-eventing` and deploys the core components in this namespace.
+
+=== Verifying the Installation of Knative Eventing
+
+After installing the required CRDs, and the core components of the Knative Eventing component, you can execute the following command to monitor the installation process.
+
+[source,bash]
+----
+kubectl get pods -n knative-eventing
+----
+
+In a successful installation, the `STATUS` of all the pods created in the `knative-eventing` namespace is `Running` or `Completed`.
+
+=== Installing a Default Messaging Layer for Events
+
+Knative Eventing uses events as the communication method between your cloud-native applications.
+The Knative Eventing component supports several types of messaging layers such as the Apache Kafka Channel, the Google Cloud Pub/Sub Channel, the In-memory Channel, and the NATS Channel.
+The following command installs an In-memory Channel as the default messaging layer:
+
+[source,bash,subs="attributes"]
+----
+kubectl apply -f https://github.com/knative/eventing/releases/download/knative-{eventing-release}/in-memory-channel.yaml
+----
+
+[NOTE]
+====
+The In-memory Channel is not recommended for production workloads.
+====
+
+=== Installing a Broker Layer
+
+Knative Eventing provides different event delivery methods such as channels and brokers.
+Depending on your application's requirements, you can use brokers instead of channels to propagate events to other components of your distributed application.
+The Knative Eventing component supports several types of brokers, such as a Multi-tenant channel-based broker, a GCP broker, an Apache Kafka broker, and a RabbitMQ broker.
+The following command installs a Multi-tenant channel-based broker layer.
+
+[source,bash,subs="attributes"]
+----
+kubectl apply -f https://github.com/knative/eventing/releases/download/knative-{eventing-release}/mt-channel-broker.yaml
+----
+
+// -----------------------------------------------------------------------------
+
+== Installing the Knative CLI
+
+The `kn` tool is a command-line interface (CLI) that creates and manages Knative resources.
+The following steps cover the installation of the Knative CLI on GNU/Linux by using a binary.
+For alternative installation methods, please refer to the https://knative.dev/docs/install/client/install-kn/[official guide].
+
+The first step is to download the binary for your operating system from the https://github.com/knative/client/releases[releases page].
+
+After downloading the binary, you can rename the file to `kn`.
+
+[source,bash]
+----
+mv kn-<os>-<arch> kn
+----
+
+[NOTE]
+====
+In the preceding command `<os>` indicates your operating system, and `<arch>` the architecture of your operating system.
+====
+
+The downloaded binary might not have execution permissions, so you can execute the following command to add that permission:
+
+[source,bash]
+----
+chmod +x kn
+----
+
+You can execute the `kn` tool from the downloaded directory, or you can move the executable binary file to a directory in your `PATH`.
+
+[source,bash]
+----
+mv kn /usr/local/bin
+----
+
+To verify the correct installation of the Knative CLI, you can execute the following command to obtain information about the version of the CLI binary:
+
+[source,bash]
+----
+kn version
+----
+
+[NOTE]
+====
+The `kn` tool uses the `kubeconfig` file to connect to the Kubernetes cluster.
+Please refer to the https://knative.dev/docs/install/client/#connecting-cli-tools-to-your-cluster[official documentation] for more information about connecting to your Kubernetes cluster by using the Knative CLI.
+====
+
+= Install by using the Knative Operator
+
+The Knative project provides several options for installing the components such as YAML files, or operators.
+This section covers the installation of the Knative components in Kubernetes by using the Knative Operator.
+
+Depending on your application's workload, your system requirements might vary.
+Knative requires at least 3 CPUs and 4 GB of memory for prototyping purposes.
+To use Knative in a production environment, it requires at least Kubernetes v1.26, 6 CPUs, 6 GB of memory, and 30 GB of disk space.
+For the installation process, ensure you have the `kubectl` CLI, and administrative access to a Kubernetes cluster.
+
+== Install the Knative Operator
+
+The first step is to install the Knative operator. 
+You can install the operator for the release v{operator-release} by running the following command:
+[source,bash,subs="attributes"]
+kubectl apply -f https://github.com/knative/operator/releases/download/knative-v{operator-release}/operator.yaml
+
+
+. After installing the Knative operator, confirm successful installation by running the following commeand:
+[source,bash]
+kubectl get deployment knative-operator
+
+Expected output: 
+[source,bash]
+  NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+  knative-operator   1/1     1            1           35h
+
+The preceding command shows knative-operator deployment to be ready, indicating successful installation of of Knative operator.
+
+== Knative Serving Installation
+Knative Serving installation consists of the following steps:
+
+1. Creating the Custom Resource for Knative Serving
+2. Configure the networking layer for the Custom Resource
+3. Set up DNS.
+
+=== Creating the Custom Resource for Knative Serving
+Create a file having a name `knative-serving.yaml`, with the following content:
+[source,yaml]
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: knative-serving
+---
+apiVersion: operator.knative.dev/v1beta1
+kind: KnativeServing
+metadata:
+  name: knative-serving
+  namespace: knative-serving
+
+
+Executing the command deploys Knative Serving Custom Resource in the `knative-serving` namespace::
+
+[source,bash]
+kubectl apply -f knative-serving.yaml
+
+
+=== Configure the networking layer for the Custom Resource
+
+The Knative Operator allows you to configure the Knative Serving component with different network layer alternatives. 
+In the absence of specific ingress specification in the Knative Serving Custom Resource (CR), the default network layer is Istio.
+However, Istio must be installed in the cluster. 
+For simpler configuration, you can use Kourier as your networking layer. 
+
+First, Edit the `knative-serving.yaml` file, and add the spec.ingress.kourier and spec.config.network configurations:
+[source,yaml]
+apiVersion: operator.knative.dev/v1beta1
+kind: KnativeServing
+metadata:
+  name: knative-serving
+  namespace: knative-serving
+spec:
+  # ...
+  ingress:
+    kourier:
+      enabled: true
+  config:
+    network:
+      ingress-class: "kourier.ingress.networking.knative.dev"
+
+Then, execute the following command to apply the changes:
+[source,bash]
+kubectl apply -f knative-serving.yaml
+
+Afterwards, retrieve the External IP address or Canonical Name (CNAME):
+[source,bash]
+kubectl --namespace knative-serving get service kourier
+
+Expected output would be as follows (It can vary based on the underlying infrastructure):
+[source,bash]
+NAME      TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)                      AGE
+kourier   LoadBalancer   10.101.101.116   10.101.101.116   80:30864/TCP,443:31928/TCP   35h
+
+
+
+Finally, after running the pervious steps that installs the Knative Serving Custom Resource and configuring the network layer, confirm Knative serving deployment. 
+Upon successful deployment, all deployments are displayed to be ready:
+[source,bash]
+kubectl get deployment -n knative-serving
+
+Expected output:
+[source,bash]
+NAME                     READY   UP-TO-DATE   AVAILABLE   AGE
+3scale-kourier-gateway   1/1     1            1           35h
+activator                1/1     1            1           35h
+autoscaler               1/1     1            1           35h
+autoscaler-hpa           1/1     1            1           35h
+controller               1/1     1            1           35h
+net-kourier-controller   1/1     1            1           35h
+webhook                  1/1     1            1           35h
+
+
+To verify the status of the Knative Serving Custom Resource you can use the following command:
+[source,bash]
+kubectl get KnativeServing knative-serving -n knative-serving
+
+
+[source,bash,subs="attributes"]
+NAME              VERSION               READY        REASON
+knative-serving   {operator-release}                True    
+
+The preceding command shows Knative Serving Custom Resource to be ready, if the installation is successful.
+
+=== Set up DNS
+
+Knative supplies a Kubernetes Job called default-domain to configure Knative Serving to use `sslip.io` as the default DNS suffix. This approach is not suitable for production environment and is suitable for development scenarios only. Executing the following command configures `sslip.io` to be the default DNS suffix:
+
+[source,bash,subs="attributes"]
+kubectl apply -f https://github.com/knative/serving/releases/download/knative-{operator-release}/serving-default-domain.yaml
+
+
+== Knative Eventing Installation
+
+You need to deploy Knative Eventing Custom Resource to complete Knative Eventing installation. 
+
+First, create a file having a name `knative-eventing.yaml`, with the following content:
+[source,yaml]
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: knative-eventing
+---
+apiVersion: operator.knative.dev/v1beta1
+kind: KnativeEventing
+metadata:
+  name: knative-eventing
+  namespace: knative-eventing
+
+
+
+Then, Execute the command that deploys Knative Eventing Custom Resource in the `knative-eventing` namespace :
+[source,bash]
+kubectl apply -f knative-eventing.yaml
+
+Afterwards, observe Knative eventing deployments. A ready status of all deployments indicates the successful deployment of Knative Eventing:
+[source,bash]
+kubectl get deployment -n knative-eventing
+
+
+[source,bash]
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+eventing-controller     1/1     1            1           35h
+eventing-webhook        1/1     1            1           35h
+imc-controller          1/1     1            1           35h
+imc-dispatcher          1/1     1            1           35h
+mt-broker-controller    1/1     1            1           35h
+mt-broker-filter        1/1     1            1           35h
+mt-broker-ingress       1/1     1            1           35h
+pingsource-mt-adapter   0/0     0            0           35h
+
+
+Finally, Verify the status of the Knative Eventing Custom Resource by running the following command:
+[source,bash]
+kubectl get KnativeEventing knative-eventing -n knative-eventing
+
+
+[source,bash,subs="attributes"]
+NAME               VERSION             READY   REASON
+knative-eventing   {operator-release}              True
+
+The preceding output shows Knative Eventing Custom Resource to be ready, if the installation is successful.
+
+
+
+=== References
+* https://knative.dev/docs/install/[Installing Knative]
