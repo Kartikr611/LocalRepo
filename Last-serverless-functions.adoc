@@ -93,7 +93,7 @@ These properties include settings such as environment variables, labels, volumes
 
 = Building Knative Functions
 
-A local container image is created for the project using `kn func build` command.
+A local container image is created for the project using the `kn func build` command.
 This image can be pushed into a container image registry in the subsequent steps. 
 This command uses the values defined in the `func.yaml` file. 
 It can also update the `func.yaml` file, when executed with specific command line options.
