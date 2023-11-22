@@ -34,7 +34,7 @@ In the following sections, we will understand these steps in details.
 
 = Creating Serverless Functions
 
-To create serverless functions you need to use `kn func create` command which generates a function project from a template. 
+To create serverless functions you need to use the `kn func create` command which generates a function project from a template. 
 This command has the following syntax:
 
 [subs=+quotes]
