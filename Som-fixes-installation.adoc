@@ -358,13 +358,10 @@ Finally, Verify the status of the Knative Eventing Custom Resource by running th
 [source,bash]
 kubectl get KnativeEventing knative-eventing -n knative-eventing
 
-
+The preceding output shows Knative Eventing Custom Resource to be ready, if the installation is successful.
 [source,bash,subs="attributes"]
 NAME               VERSION             READY   REASON
 knative-eventing   {operator-release}              True
-
-The preceding output shows Knative Eventing Custom Resource to be ready, if the installation is successful.
-
 
 
 === References
