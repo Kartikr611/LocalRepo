@@ -130,7 +130,7 @@ knative-serving   {operator-release}                True
 Knative supplies a Kubernetes Job called default-domain to configure Knative Serving to use `sslip.io` as the default DNS suffix. This approach is not suitable for production environment and is suitable for development scenarios only. Executing the following command configures `sslip.io` to be the default DNS suffix:
 
 [source,bash,subs="attributes"]
-kubectl apply -f https://github.com/knative/serving/releases/download/knative-{operator-release}/serving-default-domain.yaml
+kubectl apply -f https://github.com/knative/serving/releases/download/knative-v{operator-release}/serving-default-domain.yaml
 
 
 == Knative Eventing Installation
